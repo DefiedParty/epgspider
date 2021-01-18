@@ -3,8 +3,6 @@ import json
 import copy
 
 chName = "fhzw"
-chNameCN = "凤凰中文"
-targetDate="2021-01-15"
 jsonList = {chName: []} 
 programInfoList = {"start": 0, "stop": 0, "title": ""}
 
@@ -14,17 +12,16 @@ class epgSpider(scrapy.Spider):
 
     def __init__(self, chNameCN=None,targetDate=None, *args, **kwargs):
         super(epgSpider, self).__init__(*args, **kwargs)
+        self.start_urls=[
+            'http://epg.51zmt.top:8000/api/i/?ch=%s&date=%s'%(chNameCN,targetDate)
+        ]
 
     def start_requests(self):
-        urls = [
-            'http://epg.51zmt.top:8000/api/i/?ch=%s&date=%s'%(chNameCN,targetDate),
-        ]
-        for url in urls:
+        for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         list = response.css('li')
-        print(chNameCN)
         for program in list:
             programInfoList["start"] = program.css('td::text')[0].extract()
             programInfoList["title"] = program.css('td::text')[1].extract()
