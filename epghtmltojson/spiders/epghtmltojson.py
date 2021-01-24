@@ -7,20 +7,23 @@ chName = ""
 jsonList = {chName: []}
 programInfoList = {"start": 0, "stop": 0, "title": ""}
 theDate = "2021-01-13"
+filename = f'fullepg.json'
 # 定义一些全局变量方便使用
 
 
 class epgSpider(scrapy.Spider):
     name = "epgjson"
 
-    def __init__(self, chname=None, chNameCN=None, targetDate=None, *args, **kwargs):  # 传入参数
+    def __init__(self, chname=None, chNameCN=None, targetDate=None, fileName=f'fullepg.json', *args, **kwargs):  # 传入参数
         super(epgSpider, self).__init__(*args, **kwargs)
         global chName
         global jsonList
         global theDate
+        global filename
         chName = chname
         jsonList = {chName: []}
         theDate = targetDate
+        filename = f'%s' % (fileName)
         self.start_urls = [
             'http://epg.51zmt.top:8000/api/i/?ch=%s&date=%s' % (
                 chNameCN, targetDate)
@@ -47,12 +50,13 @@ class epgSpider(scrapy.Spider):
             else:
                 jsonList[chName][num-1]["stop"] = jsonList[chName][num]["start"]
         # 特殊处理最后一组节目
-        endTimeArray = time.strptime(theDate+' '+'23:59:59', "%Y-%m-%d %H:%M:%S")
+        endTimeArray = time.strptime(
+            theDate+' '+'23:59:59', "%Y-%m-%d %H:%M:%S")
         endTimeStamp = time.mktime(endTimeArray)
         jsonList[chName][-1]["stop"] = int(endTimeStamp)
         output = json.dumps(jsonList)  # 字典降级
         output = output.replace("&nbsp&nbsp&nbsp", "")  # 移除多余的html字段
-        filename = f'fullepg.json'
+        #filename = f'fullepg.json'
         with open(filename, 'w') as f:
             f.write(output)
         self.log(f'Saved file {filename}')
