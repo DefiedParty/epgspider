@@ -11,7 +11,7 @@
 
 - 给👴爬
 
-    `scrapy crawl epgjson -a chname=jxtv -a chNameCN=江西卫视 -a targetDate=2021-01-19`
+    `scrapy crawl epgjson -a chname=jxtv -a chNameCN=江西卫视 -a targetDate=2021-01-19 -a fileName=啊吧啊吧.json`
 
 ## 说明
 
@@ -20,6 +20,8 @@
 - `chNameCN` 意为“频道名”，用于请求数据，有确定性
 
 - `targetDate` 意为“请求清单日期”，用于请求数据
+
+**注意！**  `fileName` 为非必选项！
 
 运行结束后会在项目根目录生成 `fullepg.json`,格式如下：
 
