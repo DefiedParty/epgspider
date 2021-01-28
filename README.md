@@ -13,6 +13,42 @@
 
     `scrapy crawl epgjson -a chname=jxtv -a chNameCN=江西卫视 -a targetDate=2021-01-19 -a fileName=啊吧啊吧.json`
 
+---
+
+### *扩展脚本*
+
+`bash ./epg_get.sh n`
+
+`n`指定了爬取多少天内的节目单
+
+**下面是一个例子：**
+
+这是项目目录下的`channel_list.cfg`：
+    
+    CCTV1 cctv1
+    河南卫视 hntv
+    陕西卫视 sntv
+    江西卫视 jxtv
+
+当前系统时间：2021-05-28
+
+执行`bash ./epg_get.sh 2`
+
+80秒后将在项目目录下生成下列文件：
+
+    河南卫视 2021-05-27.json
+    河南卫视 2021-05-28.json
+    江西卫视 2021-05-27.json
+    江西卫视 2021-05-28.json
+    陕西卫视 2021-05-27.json
+    陕西卫视 2021-05-28.json
+    CCTV1 2021-05-27.json
+    CCTV1 2021-05-28.json
+
+**延迟可根据环境自行调节**
+
+---
+
 ## 说明
 
 - `chname` 指定了键，可随意设置
