@@ -14,8 +14,8 @@ if [ ! -d fullepgs.json ]; then
 fi
 for keys in `jq -r 'keys|.[]' epg_files/*.epg.*`
 do
-    jq  ".${keys}|.[]" epg_files/*.${keys} | jq -s 'reduce . as $item ([]; . +$item)' | jq "{"${keys}":.}" &> json_files/${keys}.json
+    jq  -a ".${keys}|.[]" epg_files/*.${keys} | jq -a -s 'reduce . as $item ([]; . +$item)' | jq -a "{"${keys}":.}" &> json_files/${keys}.json
 done
 rm -rf epg_files/*
-jq -s 'reduce .[] as $item ({}; .+$item)' json_files/*.json &> fullepgs.json
+jq -a -s 'reduce .[] as $item ({}; .+$item)' json_files/*.json &> fullepgs.json
 rm -rf json_files/*
