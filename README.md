@@ -5,6 +5,12 @@
 
     `pip install Scrapy`
 
+- 安装 jq
+    
+    `sudo apt-get install jq`
+
+    详见 [https://stedolan.github.io/jq/download/]
+
 - 克隆项目到本地
 
     `git clone https://github.com/DefiedParty/epgspider`
@@ -15,26 +21,26 @@
 
 ---
 
-### *扩展脚本*
+## 扩展脚本
 
-`bash ./epg_get.sh n`
+`bash ./epg_get.sh n m`
 
-`n`指定了爬取多少天内的节目单
+`n` 指定了爬取多少天内的节目单
+
+`m` 指定是否需要合并
 
 **下面是一个例子：**
 
-这是项目目录下的`channel_list.cfg`：
+这是项目目录下的 `channel_list.cfg` ：
     
     CCTV1 cctv1
-    河南卫视 hntv
+    河南卫视 hatv
     陕西卫视 sntv
     江西卫视 jxtv
 
 当前系统时间：2021-05-28
 
-执行`bash ./epg_get.sh 2`
-
-80秒后将在项目目录下生成下列文件：
+执行 `bash ./epg_get.sh 2` 将在项目目录下生成下列文件：
 
     河南卫视 2021-05-27.json
     河南卫视 2021-05-28.json
@@ -45,7 +51,11 @@
     CCTV1 2021-05-27.json
     CCTV1 2021-05-28.json
 
-**延迟可根据环境自行调节**
+如果添加参数 `m`
+
+`bash ./epg_get.sh 2 m`
+
+那么在项目目录下仅生成一个合并后的 `fullepgs.json`
 
 ---
 
@@ -59,7 +69,7 @@
 
 **注意！**  `fileName` 为非必选项！
 
-运行结束后会在项目根目录生成 `fullepg.json`,格式如下：
+运行结束后会在项目根目录生成 `fullepg.json` ,格式如下：
 
     {
         "jxtv": [

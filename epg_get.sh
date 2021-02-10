@@ -13,12 +13,19 @@ do
     while (( $count<$1 ))
     do
         thedate=`date  +"%Y-%m-%d" -d  "-${count} days"`
-        scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.json"
-        
+        if [ $2=="m" ]
+        then
+            scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.epg.${chname[num]}" &> /dev/null
+        else
+            scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.json" &> /dev/null
+        fi
         let count++
-        sleep 10s
     done
     fi
     let num++
     count=0
 done
+if [ $2=="m" ]
+then
+ bash ./mergeAllEPG.sh &> /dev/null
+fi
