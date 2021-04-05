@@ -9,7 +9,7 @@
     
     `sudo apt-get install jq`
 
-    详见 (https://stedolan.github.io/jq/download/)
+    详见 [Download jq](https://stedolan.github.io/jq/download/)
 
 - 克隆项目到本地
 
