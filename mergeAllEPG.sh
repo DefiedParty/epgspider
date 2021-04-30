@@ -4,11 +4,11 @@ fi
 if [ ! -d "json_files/" ]; then
     mkdir json_files
 fi
-if [ ! -d *.epg.* ]; then
+if [ ! -d epg_db/*.epg.* ]; then
     echo 没有找到节目单~
     exit
 fi
-mv *.epg.* epg_files/
+cp epg_db/*.epg.* epg_files/
 if [ ! -d fullepgs.json ]; then
     touch fullepgs.json
 fi

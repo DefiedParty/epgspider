@@ -2,7 +2,7 @@
 
 num=1
 ababa=1
-count=0
+count=$1
 for data in `cat channel_list.cfg`
 do
     if [ $(($num%2)) != 0 ]
@@ -10,12 +10,20 @@ do
     chNameCN[${num}]=${data}
     else
     chname[${num-1}]=${data}
-    while (( $count<$1 ))
+    while (( $count<$2 ))
     do
-        thedate=`date  +"%Y-%m-%d" -d  "-${count} days"`
-        if [ $2=="m" ]
+        thedate=`date  +"%Y-%m-%d" -d  "${count} days"`
+        if [ $3=="m" ]
         then
-            scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.epg.${chname[num]}" &> /dev/null
+            if [ ! -f "epg_db/${chNameCN[num-1]} ${thedate}.epg.${chname[num]}" ]
+            then
+                scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.epg.${chname[num]}" &> /dev/null
+                if [ ! -d "epg_db/" ]
+                then
+                    mkdir epg_db
+                fi
+                mv *.epg.* epg_db/
+            fi
         else
             scrapy crawl epgjson -a chname="${chname[num]}" -a chNameCN="${chNameCN[num-1]}" -a targetDate="${thedate}" -a fileName="${chNameCN[num-1]} ${thedate}.json" &> /dev/null
         fi
@@ -23,9 +31,9 @@ do
     done
     fi
     let num++
-    count=0
+    count=$1
 done
-if [ $2=="m" ]
+if [ $3=="m" ]
 then
  bash ./mergeAllEPG.sh &> /dev/null
 fi

@@ -1,1 +1,6 @@
 *.pyc
+json_files
+epg_files
+epg_db
+channel_List.cfg
+fullepgs.json
